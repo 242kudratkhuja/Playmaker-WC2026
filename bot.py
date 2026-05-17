@@ -79,7 +79,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif query.data == "fantasy":
         context.user_data["mode"] = "fantasy"
-        await query.edit_message_text("Fantezi jamoa\n\nO'yinchi ismini yuboring:")
+        await query.edit_message_text("Fantezi jamoa\n\nOyinchi ismini yuboring:")
 
     elif query.data == "back":
         keyboard = [
@@ -102,12 +102,12 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         data["fantasy"][user_id]["players"].append(player)
         await update.message.reply_text(f"{player} jamoangizga qoshildi!")
 
-def main():
+async def main():
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(button_handler))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler))
-    app.run_polling()
-
+    await app.run_polling()
 if __name__ == "__main__":
-    main()
+    import asyncio
+    asyncio.run(main())
